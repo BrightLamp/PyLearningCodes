@@ -12,7 +12,7 @@ if __name__ == '__main__':
 
     (trans, rot) = listener.lookupTransform('/base_link', '/front_caster', rospy.Time(0))
 
-    rospy.loginfo('距离原点的位置: x=%f ,y= %f，z=%f', trans[0], trans[1], trans[2])
-    rospy.loginfo('旋转四元数: w=%f ,x= %f，y=%f z=%f', rot[0], rot[1], rot[2], rot[3])
+    rospy.loginfo('距离原点的位置: x=%f, y=%f, z=%f', trans[0], trans[1], trans[2])
+    rospy.loginfo('旋转四元数: w=%f, x=%f, y=%f, z=%f', rot[0], rot[1], rot[2], rot[3])
     canTransform = listener.canTransform('/base_link', '/front_caster', rospy.Time(0))
     print canTransform
