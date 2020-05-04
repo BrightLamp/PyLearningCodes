@@ -1,7 +1,6 @@
 # encoding=utf-8
 
 import rospy
-import math
 import tf
 
 if __name__ == '__main__':

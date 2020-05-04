@@ -1,39 +1,25 @@
 # encoding=utf-8
 
 import rospy
-import math
 import tf
 
-import rospy
-from sensor_msgs.msg import JointState
-from std_msgs.msg import Header
-
-
-pos = 0
-
-def talker():
-    global pos
-    pub = rospy.Publisher('joint_states', JointState, queue_size=10)
-    rospy.init_node('joint_state_publisher')
-    rate = rospy.Rate(10)  # 10hz
-    hello_str = JointState()
-    hello_str.header = Header()
-    hello_str.header.stamp = rospy.Time.now()
-    hello_str.name = ['front_caster_joint']
-    hello_str.position = [3]
-    hello_str.velocity = []
-    hello_str.effort = []
-
-    while not rospy.is_shutdown():
-        pos += 1
-        hello_str.position = [pos]
-        hello_str.header.stamp = rospy.Time.now()
-        pub.publish(hello_str)
-        rate.sleep()
-
-
 if __name__ == '__main__':
-    try:
-        talker()
-    except rospy.ROSInterruptException:
-        pass
+    rospy.init_node('py_tf_broadcaster')
+    br = tf.TransformBroadcaster()
+
+    x = 0.0
+    y = 0.0
+    z = 0.0
+    roll = 0
+    pitch = 0
+    yaw = 1.57
+    rate = rospy.Rate(1)
+    while not rospy.is_shutdown():
+        yaw = yaw + 0.1
+        roll = roll + 0.1
+        br.sendTransform((x, y, z),
+                         tf.transformations.quaternion_from_euler(roll, pitch, yaw),
+                         rospy.Time.now(),
+                         "base_link",
+                         "front_caster")  # 发布base_link到link1的平移和翻转
+        rate.sleep()
